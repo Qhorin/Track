@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Track.Models.AboutModel
+
+@{
     ViewBag.Title = "About";
 }
 
@@ -7,19 +9,10 @@
     <h2>@ViewBag.Message</h2>
 </hgroup>
 
-<article>
-    <p>
-        Use this area to provide additional information.
-    </p>
-
-    <p>
-        Use this area to provide additional information.
-    </p>
-
-    <p>
-        Use this area to provide additional information.
-    </p>
-</article>
+<div>
+    @Model.Name
+    @Model.Location
+</div>
 
 <aside>
     <h3>Aside Title</h3>

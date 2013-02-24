@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Track.Models;
 
 namespace Track.Controllers
 {
@@ -17,9 +18,11 @@ namespace Track.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your app description page.";
+            var model = new AboutModel();
+            model.Name = "Jerry";
+            model.Location = "Wilmington, NC";
 
-            return View();
+            return View(model);
         }
 
         public ActionResult Contact()
