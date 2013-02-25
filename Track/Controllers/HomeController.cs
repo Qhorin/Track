@@ -9,20 +9,23 @@ namespace Track.Controllers
 {
     public class HomeController : Controller
     {
+        TrackDb _db = new TrackDb();
+        
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
-            return View();
+            var model = _db.Stores.Take(2).ToList();
+            
+            return View(model); 
         }
 
-        public ActionResult About()
+        public ActionResult About(string value)
         {
-            var model = new AboutModel();
-            model.Name = "Jerry";
-            model.Location = "Wilmington, NC";
-
-            return View(model);
+            //var model = new AboutModel();
+            //model.Name = "Jerry";
+            //model.Location = "Wilmington, NC";
+            //return View(model);
+            return File(Server.MapPath("~/Content/Site.css"), "text/css");
+            //return Json(new { Value = value, name = "Jerry" }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Contact()
@@ -30,6 +33,15 @@ namespace Track.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (_db != null)
+            {
+                _db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

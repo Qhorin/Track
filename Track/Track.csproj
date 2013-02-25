@@ -187,8 +187,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AboutModel.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Store.cs" />
+    <Compile Include="Models\TrackDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
