@@ -18,6 +18,20 @@ namespace Track.Controllers
             return View(model); 
         }
 
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var store =_db.Stores.Find(id);
+
+            return View(store);
+        }
+
+        //[HttpPost]
+        //public ActionResult Edit(Store store)
+        //{
+            
+        //}
+
         public ActionResult About(string value)
         {
             //var model = new AboutModel();
