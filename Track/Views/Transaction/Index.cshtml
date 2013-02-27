@@ -12,6 +12,12 @@
 <table>
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.StoreId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Timestamp)
         </th>
         <th></th>
@@ -19,6 +25,12 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StoreId.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalPrice)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Timestamp)
         </td>
