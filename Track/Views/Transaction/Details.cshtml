@@ -1,0 +1,22 @@
+﻿@model Track.Models.Transaction
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Transaction</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Timestamp)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Timestamp)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.TransactionId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

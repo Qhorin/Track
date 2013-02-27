@@ -12,5 +12,8 @@ namespace Track.Models
         {
         }   
         public DbSet<Store> Stores { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<TransactionItem> TransactionItems { get; set; }
+
     }
 }
