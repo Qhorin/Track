@@ -8,6 +8,7 @@ namespace Track.Models
     public class TransactionItem
     {
         public int TransactionItemId { get; set; }
+        public int TransactionId { get; set; }
         public string Item { get; set; }
         public decimal Price { get; set; }
     }

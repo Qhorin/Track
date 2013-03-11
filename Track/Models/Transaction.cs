@@ -11,9 +11,11 @@ namespace Track.Models
         public int TransactionId { get; set; }
         public DateTime Timestamp { get; set; }
         public decimal TotalPrice { get; set; }
-        
-        [DisplayName("Store")]
-        public virtual Store StoreId { get; set; }
+
+
+        public int StoreId { get; set; }
+
+        public virtual Store Store { get; set; }
         public virtual ICollection<TransactionItem> TransactionItems { get; set; }
     }
 }

@@ -1,0 +1,11 @@
+﻿@model Track.Models.TransactionItem
+<tr>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.TransactionItemId }) |
+        @Html.ActionLink("Details", "Details", new { id = Model.TransactionItemId }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.TransactionItemId })
+    </td>
+    <td>
+        @Model.Item
+    </td>
+</tr>

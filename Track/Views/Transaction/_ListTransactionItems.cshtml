@@ -1,0 +1,25 @@
+﻿@model ICollection<Track.Models.TransactionItem>
+
+@if (Model.Count > 0)
+{
+    <table>
+        <thead>
+            <th>Item
+            </th>
+            <th>Price
+            </th>
+        </thead>
+        @foreach (var i in Model)
+        {
+            <tr>
+                <td>
+                    @i.Item
+                </td>
+                <td>
+                    @i.Price
+                </td>
+
+            </tr>
+        }
+    </table>
+}

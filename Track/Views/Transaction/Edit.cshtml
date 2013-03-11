@@ -1,6 +1,10 @@
-﻿@model Track.Models.Transaction
+﻿@*@model Track.Models.Transaction*@
+@model Track.ViewModels.TransactionEditViewModel
 
 @{
+    var transaction = Model.Transaction;
+    var items = Model.TransactionItem;
+
     ViewBag.Title = "Edit";
 }
 
@@ -13,16 +17,44 @@
     <fieldset>
         <legend>Transaction</legend>
 
-        @Html.HiddenFor(model => model.TransactionId)
+        @Html.HiddenFor(model => transaction.TransactionId)
 
+        <h3>
+            <p>
+            @transaction.Timestamp
+            </p>
+        </h3>
+        
+        <div>
+            @Html.LabelFor(model => transaction.Timestamp)
+        </div>
+        <div>
+            @Html.EditorFor(model => transaction.Timestamp)
+        </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.Timestamp)
+            @Html.LabelFor(model => transaction.TotalPrice)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Timestamp)
-            @Html.ValidationMessageFor(model => model.Timestamp)
+            @Html.EditorFor(model => transaction.TotalPrice)
+            @Html.ValidationMessageFor(model => transaction.TotalPrice)
+        </div>
+@*        <div>
+            @Html.EditorFor(model => Model.Store.Id)
+            @Html.ValidationMessageFor(model => model.Store.Id)
+        </div>*@
+
+        <div>
+            @Html.DropDownList("StoreId", String.Empty)
         </div>
 
+        <div>
+            @*@Html.Partial("_EditTransactionItems", transaction)*@
+            <table>
+            @Html.EditorFor(x => x.Transaction.TransactionItems);
+                @*@Html.EditorFor(x => x.TransactionItem);*@
+            </table>
+            
+        </div>
         <p>
             <input type="submit" value="Save" />
         </p>

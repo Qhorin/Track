@@ -1,0 +1,75 @@
+﻿@model Track.Models.Transaction
+
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@*@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+*@
+
+    @if (Model.TransactionItems.Count > 0)
+    {
+    <table>
+        <thead>
+            <th></th>
+            <th>Item
+            </th>
+            <th>Price
+            </th>
+        </thead>
+        @foreach (var item in Model.TransactionItems)
+        {
+            <tr>
+                <td>
+                    @Html.HiddenFor(i => item.TransactionItemId)
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.EditorFor(i => item.Item)
+                        @Html.ValidationMessageFor(i => item.Item)
+                    </div>
+                </td>
+                <td>
+                    <div class="editor-field">
+                        @Html.EditorFor(i => item.Price)
+                        @Html.ValidationMessageFor(i => item.Price)
+                        
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+}
+@*<fieldset>
+        <legend>TransactionItem</legend>
+
+        @Html.HiddenFor(model => model.TransactionItemId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Item)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Item)
+            @Html.ValidationMessageFor(model => model.Item)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Price)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Price)
+            @Html.ValidationMessageFor(model => model.Price)
+        </div>*@
+
+<p@*>
+    <input type="submit" value="Save" />
+</*@p>
+@*</fieldset>*@
+
+
+<div@*>
+    @Html.ActionLink("Back to List", "Index")
+</di*@v>

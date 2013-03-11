@@ -1,0 +1,10 @@
+﻿@{
+    Layout = null;
+}
+
+@model Track.Models.TransactionItem
+@Html.HiddenFor(x => x.TransactionItemId)
+@Html.HiddenFor(x => x.TransactionId)
+@Html.TextBoxFor(x => x.Item)
+@Html.TextBoxFor(x => x.Price)
+<br />

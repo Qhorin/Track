@@ -13,7 +13,7 @@ namespace Track.Controllers
         
         public ActionResult Index()
         {
-            var model = _db.Stores.Take(2).ToList();
+            var model = _db.Stores.ToList();
             
             return View(model); 
         }

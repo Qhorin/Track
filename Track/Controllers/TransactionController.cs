@@ -5,6 +5,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Track.Controllers;
+using Track.ViewModels;
 
 namespace Track.Models
 {
@@ -38,7 +40,11 @@ namespace Track.Models
 
         public ActionResult Create()
         {
-            return View();
+            var model = new Transaction();
+            model.Timestamp = DateTime.Now;
+
+            PopulateStoreDropdown();
+            return View(model);
         }
 
         //
@@ -63,12 +69,26 @@ namespace Track.Models
 
         public ActionResult Edit(int id = 0)
         {
-            Transaction transaction = db.Transactions.Find(id);
+            Transaction transaction = db.Transactions.Find(id);//.Include(x => x.StoreId).Where(y => y.TransactionId == id).Single();
+            //var transaction = db.Transactions.Include(x => x.TransactionItems).Where(y => y.TransactionId == id).Single();
+
+            var model = new TransactionEditViewModel();
+            model.Transaction = transaction;
+            model.TransactionItem = db.TransactionItems.Where(x => x.TransactionId == id);
+
+
             if (transaction == null)
             {
                 return HttpNotFound();
             }
-            return View(transaction);
+
+            //var storeQry = from s in db.Stores
+            //               orderby s.Name
+            //               select s;
+
+            PopulateStoreDropdown(transaction.StoreId);
+
+            return View(model);
         }
 
         //
@@ -78,9 +98,35 @@ namespace Track.Models
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Transaction transaction)
         {
+        
+            var current = db.Transactions.Include(x => x.TransactionItems).Single(x => x.TransactionId == transaction.TransactionId);
+        
+           
             if (ModelState.IsValid)
             {
-                db.Entry(transaction).State = EntityState.Modified;
+                foreach (var item in transaction.TransactionItems){
+
+                    var originalChildItem = current.TransactionItems
+                        .Where(x => x.TransactionItemId == item.TransactionItemId)
+                        .SingleOrDefault();
+
+                    // Yes, update scalar properties of child item
+                    if (originalChildItem != null)
+                    {
+                        var child = db.Entry(originalChildItem);
+                        child.CurrentValues.SetValues(item);
+                    }
+                    else
+                    {
+                        item.TransactionItemId = 0;
+                        current.TransactionItems.Add(item);
+                    }
+                }
+
+                var totalPrice = CalculateTotalPrice(transaction.TransactionItems);
+                current.TotalPrice = totalPrice;
+                UpdateModel(current);
+                
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -117,6 +163,18 @@ namespace Track.Models
         {
             db.Dispose();
             base.Dispose(disposing);
+        }
+        
+        private void PopulateStoreDropdown(int storeId = 0)
+        {
+            //Populate Store dropdown
+            ViewBag.StoreId = new SelectList(db.Stores.OrderBy(x => x.Name), "Id", "Name", storeId);
+        }
+
+        private decimal CalculateTotalPrice(ICollection<TransactionItem> items)
+        {
+            var total = items.Sum(x => x.Price);
+            return total;
         }
     }
 }
