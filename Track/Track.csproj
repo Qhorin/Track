@@ -332,6 +332,8 @@
     <Content Include="Views\Transaction\_EditTransactionItems.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\TransactionItem.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TransactionItem.cshtml" />
+    <Content Include="Views\Transaction\_AddNew.cshtml" />
+    <Content Include="Views\Transaction\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

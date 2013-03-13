@@ -1,0 +1,44 @@
+﻿@*@model Track.Models.Transaction*@
+@model Track.ViewModels.TransactionEditViewModel
+
+@Scripts.Render("~/bundles/jquery")
+
+@{
+    var transaction = Model.Transaction;
+    var items = Model.TransactionItem;
+
+    ViewBag.Title = "Edit";
+}
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+
+@*<input name="TransactionItem.TransactionItemId" type="text" size="20" />
+
+<input name="TransactionItem.Item" type="text" />
+
+<input name="TransactionItem.Price" type="text" />
+    
+    *@<br />
+    <input type="hidden" name="TransactionItems.Index" value="1" />
+    <input name="TransactionItems[1].TransactionItemId" type="text" size="20" />
+
+<input name="TransactionItems[1].Item" type="text" />
+
+<input name="TransactionItems[1].Price" type="text" />
+        <br />@*
+
+    <input type="hidden" name="TransactionItems.Index" value="0" />
+    <input name="TransactionItems[0].TransactionItemId" type="text" size="20" />
+
+<input name="TransactionItems[0].Item" type="text" />
+
+<input name="TransactionItems[0].Price" type="text" />*@
+    
+            <p>
+            <input type="submit" value="Save" />
+        </p>
+}
