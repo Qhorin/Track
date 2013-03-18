@@ -189,6 +189,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\BeginCollectionItem.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AboutModel.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -331,12 +332,13 @@
     <Content Include="Views\Transaction\_ListTransactionItems.cshtml" />
     <Content Include="Views\Transaction\_EditTransactionItems.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\TransactionItem.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\TransactionItem.cshtml" />
+    <Content Include="Views\Transaction\_TransactionItem.cshtml" />
     <Content Include="Views\Transaction\_AddNew.cshtml" />
     <Content Include="Views\Transaction\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

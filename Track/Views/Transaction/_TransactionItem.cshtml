@@ -1,0 +1,37 @@
+﻿@{
+    Layout = null;
+}
+
+@model Track.Models.TransactionItem
+
+@*@Html.HiddenFor(x => x.TransactionItemId)
+@Html.HiddenFor(x => x.TransactionId)
+@Html.TextBoxFor(x => x.Item)
+@Html.TextBoxFor(x => x.Price)
+<br />*@
+
+@using (Html.BeginCollectionItem("TransactionItems"))
+{
+@*<img src="@Url.Content("~/Content/images/draggable-icon.png")" style="cursor: move" alt=""/>*@
+    <tr>
+        <td>
+        @Html.HiddenFor(model => model.TransactionItemId)
+        @Html.HiddenFor(model => model.TransactionId)
+            </td>
+        @*@Html.LabelFor(model => model.Item)*@
+        <td>
+            @Html.EditorFor(model => model.Item)
+        </td>
+
+        @*@Html.LabelFor(model => model.Price)*@
+        <td>
+            @Html.EditorFor(model => model.Price)
+
+        </td>
+        
+        <td>
+            <a href="#" onclick="$(this).parent().parent().remove();">Delete</a>
+        </td>
+    </tr>
+    
+}

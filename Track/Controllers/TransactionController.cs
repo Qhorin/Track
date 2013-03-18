@@ -233,5 +233,10 @@ namespace Track.Models
             
         //    return View("Index");
         //}
+
+        public ActionResult TransactionItemRow()
+        {
+            return PartialView("_TransactionItem");
+        }
     }
 }

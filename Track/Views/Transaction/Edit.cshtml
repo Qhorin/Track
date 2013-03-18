@@ -1,5 +1,6 @@
 ﻿@*@model Track.Models.Transaction*@
 @model Track.ViewModels.TransactionEditViewModel
+@using Track.Models
 
 @Scripts.Render("~/bundles/jquery")
 
@@ -49,14 +50,16 @@
         </div>
 
 
-        <table id="itemtable">
-            @Html.EditorFor(model => model.TransactionItems);
-            @*@Html.EditorFor(x => x.TransactionItem)*@;
-                
-            
+        <table id="itemEditor">
 
+            @foreach (TransactionItem item in Model.TransactionItems)
+            {
+                Html.RenderPartial("_TransactionItem", item);
+            }
 
         </table>
+        
+        <a id="addAnother" href="#">Add another</a>
 
         
         <div>
@@ -77,5 +80,13 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript">
 
+        $("#addAnother").click(function () {
+            $.get('/Transaction/TransactionItemRow', function (template) {
+                $('#itemEditor  tr:last').after(template);
+            });
+        });
+    </script>
 }
+@*$("#itemEditor").append(template);*@
