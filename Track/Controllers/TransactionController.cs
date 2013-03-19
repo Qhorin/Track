@@ -74,7 +74,7 @@ namespace Track.Models
 
             var model = new TransactionEditViewModel();
             model.Transaction = transaction;
-            model.TransactionItems = db.TransactionItems.Where(x => x.TransactionId == id);
+            model.TransactionItems = transaction.TransactionItems; //db.TransactionItems.Where(x => x.TransactionId == id);
 
 
             if (transaction == null)
@@ -96,15 +96,26 @@ namespace Track.Models
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Transaction transaction, ICollection<TransactionItem> transactionItems)
+        public ActionResult Edit(TransactionEditViewModel model) //Transaction transaction, ICollection<TransactionItem> transactionItems)
         {
 
-            //var originalTransaction = db.Transactions.Single(x => x.TransactionId == transaction.TransactionId);
-                //db.Transactions.Include(x => x.TransactionItems).Single(x => x.TransactionId == transaction.TransactionId);
-            var trans = transaction;
+            foreach (var modelStateValue in ModelState.Values)
+            {
+                foreach (var error in modelStateValue.Errors)
+                {
+                    // Do something useful with these properties
+                    var errorMessage = error.ErrorMessage;
+                    var exception = error.Exception;
+                }
+            }
+
+            var transaction = model.Transaction;
+            var transactionItems = model.TransactionItems;
             db.Entry(transaction).State = EntityState.Modified;
 
-            if (ModelState.IsValid)
+            
+
+            if (true) //(ModelState.IsValid)
             {
 
                 foreach (var item in transactionItems)
@@ -123,13 +134,14 @@ namespace Track.Models
                     }
                     else //item is new
                     {
-                        
+
                         item.TransactionItemId = 0;
                         db.Entry(transaction).Collection(x => x.TransactionItems).Load();
                         //db.Entry(transaction).Reference(x => x.TransactionItems).Load();
                         transaction.TransactionItems.Add(item); //I think this isn't right. This may blow up later.
                     }
                 }
+            
 
                 var totalPrice = CalculateTotalPrice(transactionItems);
                 transaction.TotalPrice = totalPrice;
@@ -141,7 +153,9 @@ namespace Track.Models
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(transaction);
+
+            PopulateStoreDropdown(transaction.StoreId);
+            return View(model);
         }
 
         //

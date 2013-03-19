@@ -20,7 +20,7 @@
     <fieldset>
         <legend>Transaction</legend>
 
-        @Html.HiddenFor(model => model.Transaction.TransactionId)
+        @Html.HiddenFor(model => transaction.TransactionId)
 
         
             <p>
@@ -84,7 +84,6 @@
 
         $("#addAnother").click(function () {
             $.get('/Transaction/TransactionItemRow', function (template) {
-                alert(template);
                 $('#itemEditor  tr:last').after(template);
             });
         });
