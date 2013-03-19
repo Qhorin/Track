@@ -84,6 +84,7 @@
 
         $("#addAnother").click(function () {
             $.get('/Transaction/TransactionItemRow', function (template) {
+                alert(template);
                 $('#itemEditor  tr:last').after(template);
             });
         });
