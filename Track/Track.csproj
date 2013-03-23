@@ -338,6 +338,7 @@
     <Content Include="Views\Transaction\_AddNew.cshtml" />
     <Content Include="Views\Transaction\Test.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
+    <Content Include="Views\Transaction\Edittest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

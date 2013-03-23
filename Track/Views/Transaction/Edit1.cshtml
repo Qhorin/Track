@@ -22,7 +22,7 @@
     <li>
         @*<input type="checkbox" data-bind="checked: isDone" />*@
         <input data-bind="value: name" />
-        <a href="#" data-bind="click: $parent.removeItem">Delete</a>
+        <a href="#" data-bind="click: $parent.removeTask">Delete</a>
     </li> 
 </ul>
 
@@ -113,15 +113,11 @@
             
             self.addItem = function () {
                 self.items.push(new TransactionItem({ name: this.newItemText() }));
-                self.newItemText("");
             }
 
-            //delete
-            self.removeItem = function (item) { self.items.destroy(item) };
 
         }
-        ko.applyBindings(new TransactionEditViewModel());
-        
+        ko.applyBindings(new TaskListViewModel());
     </script>
 @section Scripts {
 }
