@@ -40,6 +40,21 @@
 
 <script type="text/javascript">
 
+    var mapping = 
+        {
+            create: function (options) {
+                return new myTransactionModel(options.data);
+            }
+        }
+
+    var myTransactionModel = function(data) {
+        ko.mapping.fromJS(data, {}, this);
+     
+        this.isSelected = ko.observable(false);
+    }
+    
+    
+
     var viewModel = {};
     self = viewModel;
 
