@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -269,7 +271,9 @@ namespace Track.Models
             var serializer = new JavaScriptSerializer();
             var viewModel = serializer.Serialize(data);
 
-            return Json(viewModel, JsonRequestBehavior.AllowGet);
+            var javascriptJson = JsonConvert.SerializeObject(data, new IsoDateTimeConverter());
+
+            return Json(javascriptJson, JsonRequestBehavior.AllowGet);
         }
     }
 }

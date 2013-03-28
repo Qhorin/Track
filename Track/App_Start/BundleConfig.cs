@@ -13,6 +13,7 @@ namespace Track
                 "~/Scripts/jquery-ui-{version}.js",
                 "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*",
+                        "~/Scripts/jquery.tmpl.js",
                         "~/Scripts/knockout-{version}.js",
                         "~/Scripts/knockout.mapping-latest.js"));
 
