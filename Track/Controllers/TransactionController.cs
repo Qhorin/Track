@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Track.Controllers;
 using Track.ViewModels;
 
@@ -19,7 +20,14 @@ namespace Track.Models
 
         public ActionResult Index()
         {
-            return View(db.Transactions.ToList());
+
+            //var data = db.Transactions.ToList();
+            //var serializer = new JavaScriptSerializer();
+            //var viewModel = serializer.Serialize(data);
+
+            //return Json(viewModel, JsonRequestBehavior.AllowGet);
+            return View();
+            
         }
 
         //
@@ -251,6 +259,17 @@ namespace Track.Models
         public ActionResult TransactionItemRow()
         {
             return PartialView("_TransactionItem");
+        }
+
+        public ActionResult LoadTransactions()
+        {
+
+            var data = db.Transactions.ToList();
+            //var viewModel = new ViewModel();
+            var serializer = new JavaScriptSerializer();
+            var viewModel = serializer.Serialize(data);
+
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
         }
     }
 }

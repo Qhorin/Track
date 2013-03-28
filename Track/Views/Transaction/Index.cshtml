@@ -1,12 +1,66 @@
-﻿@model IEnumerable<Track.Models.Transaction>
+﻿@*@model IEnumerable<Track.Models.Transaction>*@
+
 
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
+<input type="checkbox" data-bind="checked: $root.isChecked" />
+@*<span data-bind="text: firstName"></span>*@
+<table data-bind="foreach: transactions">
+  <tbody>  <tr>
+    @*<li><input data-bind="value: TransactionId" /></li>*@
+    @*<li><input data-bind="value: Store.Name" /></li>*@
+    <td><!-- ko text: TotalPrice --> <!-- /ko --></td>
+     
+    <td><span data-bind="text: Timestamp"></span></td>
+      <td><span data-bind="text: $data.TotalPrice"></span></td>
+    <td><a href="#" data-bind="click: $root.removeTransaction.bind($root, $data, $parent)">Remove</a></td>
 
-<p>
+</tr> 
+      <!-- ko if:  $root.isChecked -->
+      <!-- ko foreach: TransactionItems -->
+      <tr  >
+                <td></td>
+                <td data-bind="text: Item"></td>
+                <td data-bind="text: Price"></td>
+                <td data-bind="text: $data.Price"></td>
+                <td><a href="#" data-bind="click: $root.removeItem">Remove</a></td>
+            </tr>
+       <!-- /ko -->
+      <!-- /ko -->
+</>
+
+    </tbody>
+</table>
+
+
+@*<div data-bind="text: ko.mapping.toJSON(transactions)"></div>*@
+
+<script type="text/javascript">
+
+    var viewModel = {};
+    self = viewModel;
+
+    self.isChecked =  ko.observable(true);
+    
+        $.getJSON("/Transaction/LoadTransactions", function (data) {
+            alert(data);
+            viewModel.transactions = ko.mapping.fromJSON(data);
+            viewModel.removeItem = function (transaction, item) {
+                
+                transaction.TransactionItems.remove(item);
+                return false;
+            }
+            ko.applyBindings(viewModel);
+        });
+
+        viewModel.removeTransaction = function (data) { self.transactions.remove(data) }
+</script>
+
+
+@*<p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table>
@@ -42,4 +96,4 @@
     </tr>
 }
 
-</table>
+</table>*@
