@@ -6,69 +6,117 @@
 }
 
 <h2>Index</h2>
-<input type="checkbox" data-bind="checked: $root.isChecked" />
-@*<span data-bind="text: firstName"></span>*@
+
 <table data-bind="foreach: transactions">
-  <tbody>  <tr>
-    @*<li><input data-bind="value: TransactionId" /></li>*@
-    @*<li><input data-bind="value: Store.Name" /></li>*@
-    
-     
-    <td data-bind="event: { mouseover: function () { $data.isSelected(true) }, mouseout: function () { $data.isSelected(false) } }"><span data-bind="    text: Timestamp"></span></td>
-      <td><span data-bind="text: $data.TotalPrice"></span></td>
-      <td><a href="#" data-bind="click: $root.toggleDetails, event: { mouseover: function () { $data.isSelected(true) }, mouseout: function () { $data.isSelected(false) }}">Details</a></td>
-    <td><a href="#" data-bind="click: $root.removeTransaction">Remove</a></td>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Date</th>
+            <th>Price</th>
+            <th>Store</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            <td><a href="#" data-bind="click: $root.toggleDetails, text: showHideLink"></a></td>
+            <td data-bind="event: { mouseover: function () { $data.isSelected(true) }, mouseout: function () { $data.isSelected(false) } }"><span data-bind="    text: Timestamp"></span></td>
+            <td><span data-bind="text: $data.TotalPrice"></span></td>
+            <td><span data-bind="text: Store.Name"></span></td>
+            @*<td><a href="#" data-bind="click: $root.toggleDetails, event: { mouseover: function () { $data.isSelected(true) }, mouseout: function () { $data.isSelected(false) } }">Details</a></td>*@
+            @*<td><a href="#" data-bind="click: $root.toggleDetails">Details</a></td>*@
+            <td><a href="#" data-bind="click: $root.removeTransaction">Remove</a></td>
 
-</tr> 
-      <!-- ko if:  isSelected -->
-      <!-- ko foreach: TransactionItems -->
-      <tr  >
-                <td></td>
-          
-                <td data-bind="text: Item"></td>
-                <td data-bind="text: Price"></td>
-                <td><a href="#" data-bind="click: $root.removeItem.bind($root, $parent, $data)">Remove</a></td>
+        </tr>
+        <!-- ko if:  isSelected --> 
+            
+            @*<!--  foreach: TransactionItems -->*@
+            <!-- ko template: { name: displayMode, foreach: TransactionItems } --> <!-- /ko -->
+                @*<tr>
+                    <td></td>
+                    <td data-bind="text: Item"></td>
+                    <td data-bind="text: Price"></td>
+                    <td><a href="#" data-bind="click: $root.removeItem.bind($root, $parent, $data)">Remove</a></td>
+                </tr>*@
+            
+            @*<!--  -->*@
+            <tr>
+                <td><a href="#" data-bind="click: $root.addItem">Add Item</a></td>
+
             </tr>
-       <!-- /ko -->
-      <tr>
-          <td><a href="#" data-bind="click: $root.addItem">Add Item</a></td>
-
-      </tr>
-      <!-- /ko -->
-</>
-
+        <!-- /ko -->
     </tbody>
 </table>
 
+<script type="text/html" id="editItems">
+    <tr>
+        <td><input data-bind="value: Item" /></td>
+        <td><input data-bind="value: Price" /></td>
+        <td><a href="#" data-bind="click: $root.removeItem.bind($root, $parent, $data)">Remove</a></td>
+    </tr>
+</script>
+
+<script type="text/html" id="listItems">
+    <tr>
+        <td></td>
+        @*<td data-bind="visible: true, text: Item, click: editItem"></td>*@
+        <td data-bind="visible: !editable(), text: Item, click: editItem"></td>
+        <td><input data-bind="visible: editable, value: Item, hasfocus: editable" /></td>
+        <td data-bind="text: Price"></td>
+        <td><a href="#" data-bind="click: $root.removeItem.bind($root, $parent, $data)">Remove</a></td>
+    </tr>
+</script>
 
 @*<div data-bind="text: ko.mapping.toJSON(transactions)"></div>*@
 
 <script type="text/javascript">
 
     @*Create mapping on transaction view model to add the iSelected property*@
-    var mapping = 
+    var mappingOptions =
         {
             create: function (options) {
-                return new myTransactionModel(options.data);
+                return new Transaction(options.data);
             }
         }
 
-    var myTransactionModel = function(data) {
+    function TransactionItem(data) {
+        this.editable = ko.observable(false);
+
+        this.editItem = function () {
+            this.editable(true);
+        }
+
         ko.mapping.fromJS(data, {}, this);
-     
-        this.isSelected = ko.observable(false);
     }
-    
-    
+
+    function Transaction(data) {
+        this.isSelected = ko.observable(false);
+        this.showHideLink = ko.computed(function () {
+            return this.isSelected() ? "Hide" : "Show";
+        }, this);
+
+        this.displayMode = function () { return "listItems" };
+
+        var mappingOptions = {
+            'TransactionItems': {
+                create: function (options) {
+                    return new TransactionItem(options.data);
+                }
+            }
+        }
+
+        ko.mapping.fromJS(data, mappingOptions, this);
+    }
 
     var viewModel = {};
     self = viewModel;
 
     self.isChecked =  ko.observable(true);
-    
+        
+        @* Grab transaction data from the server *@
         $.getJSON("/Transaction/LoadTransactions", function (data) {
             //alert(data);
-            viewModel.transactions = ko.mapping.fromJSON(data, mapping);
+            viewModel.transactions = ko.mapping.fromJSON(data, mappingOptions);
 
             viewModel.removeItem = function (transaction, item) {
                 
@@ -86,7 +134,13 @@
 
         viewModel.removeTransaction = function (data) { self.transactions.remove(data) }
 
-        viewModel.toggleDetails = function (data) { data.isSelected(  (data.isSelected() ? false : true)  )  }
+        viewModel.toggleDetails = function (data) {
+            data.isSelected((data.isSelected() ? false : true));
+        }
+
+        viewModel.editItem = function (item) {
+            item.editable = ko.observable(true);
+        }
 </script>
 
 
